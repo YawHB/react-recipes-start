@@ -20,15 +20,24 @@ interface Info {
     created: string;
     info: string;
 }
+interface Category {
+    id: number | null;
+    name: string;
+}
 
 let categories: Array<string> = [];
 let recipes: Array<Recipe> = [];
 
 async function getCategories(): Promise<Array<string>> {
-    if (categories.length > 0) return [...categories];
+    //if (categories.length > 0) return [...categories];
     const res = await fetch(CATEGORIES_URL).then(handleHttpErrors);
     categories = [...res];
     return categories;
+}
+
+async function addCategory(newCategory: Category): Promise<Array<string>> {
+    const options = makeOptions('POST', newCategory, true);
+    return fetch(CATEGORIES_URL, options).then(handleHttpErrors);
 }
 async function getRecipes(category: string | null): Promise<Array<Recipe>> {
     if (recipes.length > 0) return [...recipes];
@@ -57,4 +66,4 @@ async function getInfo(): Promise<Info> {
 
 export type { Recipe, Info };
 // eslint-disable-next-line react-refresh/only-export-components
-export { getCategories, getRecipes, getRecipe, addRecipe, deleteRecipe, getInfo };
+export { getCategories, addCategory, getRecipes, getRecipe, addRecipe, deleteRecipe, getInfo };

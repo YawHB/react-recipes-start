@@ -11,6 +11,7 @@ import './App.css';
 import RecipesLayout from './recipes/RecipesLayout';
 import Logout from './security/Logout';
 import RequireAuth from './security/RequireAuth';
+import AddCategory from './recipes/AddCategory';
 
 export default function App() {
     //const auth = useAuth();
@@ -33,6 +34,11 @@ export default function App() {
                 />
                 <Route path="/login" element={<Login />} />
                 <Route path="*" element={<h2>Not Found</h2>} />
+                <RequireAuth roles={['ADMIN']}>
+                    <Route path="/add-category" element={AddCategory}>
+                        {' '}
+                    </Route>
+                </RequireAuth>
 
                 <Route path="/logout" element={<Logout />} />
             </Routes>
